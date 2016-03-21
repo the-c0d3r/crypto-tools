@@ -12,9 +12,10 @@ class alphabet:
                 self.count += 1
 
 class code:
-    def __init__(self):
-        print("Word Frequency Analyzer\n")
-        encrypted_code = input("Enter string to analyze : ")
+    def __init__(self,encrypted_code=""):
+        if not encrypted_code:
+            print("Word Frequency Analyzer\n")
+            encrypted_code = input("Enter string to analyze : ")
         alphabets = [alphabet(i) for i in string.ascii_lowercase]
         # a list of objects containing each letter in A-Z
 
