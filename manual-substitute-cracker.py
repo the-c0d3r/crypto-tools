@@ -6,7 +6,6 @@ class code:
         self.code = encrypted_code
         self.history = []
         self.original = self.code
-        #self.history.append(self.original)
 
         helpmsg =  "\nx y : replace x with y in the string" 
         helpmsg += "\nfreq : display frequency" 
@@ -41,15 +40,21 @@ class code:
                 exit()
 
     def goback(self):
+        """
+        Revert the code back into the version which is lower than this
+        """
         try:
-            self.code = self.history[-1] 
+            self.code = self.history[-1]
+            # Set the code into the last entry in the history
             self.history.pop()
+            # Removes the last entry
             print(self.code)
         except IndexError:
             print("[!] This is the original version cannot go back anymore\n")
             print(self.code)
 
     def replace(self,old,new):
+        """Replace the occurance of 'old' with 'new' and print"""
         self.code = self.code.lower().replace(old,new)
         self.history.append(self.code)
         print("\nReplaced : {} with {}\n".format(old,new))
