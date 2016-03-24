@@ -1,8 +1,15 @@
 #!/usr/bin/env python3
 import frequency_analysis
+import sys
+import os
 
 class code:
     def __init__(self,encrypted_code):
+        if 'nux' in sys.platform:
+            self.clear = lambda: os.system("clear")
+        else:
+            self.clear = lambda: os.system("cls")
+
         self.code = encrypted_code
         self.history = []
         self.original = self.code
@@ -11,6 +18,7 @@ class code:
         helpmsg += "\nfreq : display frequency" 
         helpmsg += "\nback : go back one version"
         helpmsg += "\nreset : go back to original version"
+        helpmsg += "\nclear : clear the screen"
         helpmsg += "\nexit : get out of the program\n"
 
         while True:
@@ -27,16 +35,25 @@ class code:
                     self.code = self.original
                     print("\nReset to original\n")
                     print(self.code)
+                    print()
+                elif cmd == "clear":
+                    self.clear()
                 elif cmd == "exit":
                     exit()
                 else:
                     self.replace(cmd.split(" ")[0],cmd.split(" ")[1])
 
-            except ValueError:
-                pass
+            # except ValueError:
+            #     pass
+
             except IndexError:
-                pass
+                # Means the splitting failed
+                # which means command invalid
+                print()
+                print(self.code)
+
             except KeyboardInterrupt:
+                print()
                 exit()
 
     def goback(self):
@@ -48,19 +65,31 @@ class code:
             # Set the code into the last entry in the history
             self.history.pop()
             # Removes the last entry
+            print()
             print(self.code)
+            print()
         except IndexError:
             print("[!] This is the original version cannot go back anymore\n")
+            print()
             print(self.code)
+            print()
 
     def replace(self,old,new):
         """Replace the occurance of 'old' with 'new' and print"""
-        self.code = self.code.lower().replace(old,new)
-        self.history.append(self.code)
-        print("\nReplaced : {} with {}\n".format(old,new))
-        print(self.code)
+        self.change = True if old in self.code else False
+        # Checks if it is possible to replace
+        if self.change:
+            self.code = self.code.lower().replace(old,new)
+            self.history.append(self.code)
+            print("\n[+] Replaced : {} with {}".format(old,new))
+            print()
+            print(self.code)
+
+        else:
+            print("\n[-] No occurance of [{}]".format(old))
 
 if __name__ == "__main__":
     print("Manual Substitute Cracker")
+    print("=========================")
     text = input("\nEnter encrypted string : ").lower()
     app = code(text)
