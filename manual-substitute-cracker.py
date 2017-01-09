@@ -3,8 +3,10 @@ import frequency_analysis
 import sys
 import os
 
+
 class code:
     def __init__(self,encrypted_code):
+
         if 'nux' in sys.platform:
             self.clear = lambda: os.system("clear")
         else:
@@ -42,10 +44,6 @@ class code:
                     exit()
                 else:
                     self.replace(cmd.split(" ")[0],cmd.split(" ")[1])
-
-            # except ValueError:
-            #     pass
-
             except IndexError:
                 # Means the splitting failed
                 # which means command invalid
@@ -61,9 +59,8 @@ class code:
         Revert the code back into the version which is lower than this
         """
         try:
-            self.code = self.history[-1]
+            self.code = self.history.pop()
             # Set the code into the last entry in the history
-            self.history.pop()
             # Removes the last entry
             print()
             print(self.code)
@@ -79,14 +76,15 @@ class code:
         self.change = True if old in self.code else False
         # Checks if it is possible to replace
         if self.change:
-            self.code = self.code.lower().replace(old,new)
             self.history.append(self.code)
+            self.code = self.code.lower().replace(old,new)
             print("\n[+] Replaced : {} with {}".format(old,new))
             print()
             print(self.code)
 
         else:
             print("\n[-] No occurance of [{}]".format(old))
+
 
 if __name__ == "__main__":
     print("Manual Substitute Cracker")

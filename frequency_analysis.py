@@ -1,3 +1,4 @@
+# _*_ coding: utf-8 _*_
 #!/usr/bin/env python3
 import string
 
@@ -8,7 +9,7 @@ class alphabet:
 
     def count_freq(self,text):
         self.count = 0
-        
+
         for word in text:
             if word.lower() == self.alphabet:
                 self.count += 1
@@ -21,7 +22,7 @@ class code:
             print("Word Frequency Analyzer\n")
             encrypted_code = input("Enter string to analyze : ")
         alphabets = [alphabet(i) for i in string.ascii_lowercase]
-        
+
         temp = {}
         print("\n+==================================+")
         print("+  Alphabet : Count :  Percentage  +")
@@ -36,6 +37,13 @@ class code:
         for item in result:
             print("+{:^11}|{:^7}|{:^14.5}+".format(item[0],item[1][0],item[1][1]))
         print("+==================================+")
+        print()
+        print("Bar Chart")
+        print("---------")
+
+        for letter in result:
+            print("| {} | {} {}".format(letter[0],"█"*int(letter[1][1][:-1]),letter[1][1]))
+        print()
 
 
 if __name__ == "__main__":
